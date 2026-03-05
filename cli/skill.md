@@ -19,7 +19,22 @@ metadata:
 
 Autonomous Hyperliquid trading via agent-cli. 14 strategies across market making, momentum, arbitrage, and LLM-powered trading. WOLF multi-slot orchestrator. HOWL nightly performance review. Builder fee revenue collection.
 
-## Setup
+## Quick Start (Agent-Friendly)
+
+```bash
+cd ~/agent-cli
+bash scripts/bootstrap.sh           # Creates venv, installs, validates
+hl wallet auto                       # Creates wallet (no prompts)
+export HL_KEYSTORE_PASSWORD=<password from above>
+hl setup claim-usdyp                 # Claim testnet USDyP
+hl builder approve                   # Approve builder fee (one-time)
+hl run avellaneda_mm --mock --max-ticks 3  # Validate
+hl run engine_mm -i ETH-PERP --tick 15 --max-ticks 5  # First live trade
+```
+
+For full step-by-step onboarding, see `skills/onboard/SKILL.md`.
+
+## Setup (Manual)
 
 ```bash
 cd ~/agent-cli && pip install -e .
@@ -28,7 +43,7 @@ hl setup check  # Validate environment
 
 ### Getting Started — YEX Testnet
 
-1. Set your private key:
+1. Set your private key (or use `hl wallet auto`):
 ```bash
 export HL_PRIVATE_KEY=0x...
 export HL_TESTNET=true  # default
@@ -36,10 +51,7 @@ export HL_TESTNET=true  # default
 
 2. Claim testnet USDyP (required for YEX markets):
 ```bash
-curl --location 'https://api-temp.nunchi.trade/api/v1/yex/usdyp-claim' \
-  --header 'x-network: testnet' \
-  --header 'Content-Type: application/json' \
-  --data '{"userAddress":"<YOUR_WALLET_ADDRESS>"}'
+hl setup claim-usdyp
 ```
 
 3. Approve builder fee (one-time):
@@ -153,7 +165,8 @@ hl builder approve [--mainnet]
 ### Wallet (Encrypted Keystore)
 
 ```bash
-hl wallet create
+hl wallet auto                       # Non-interactive wallet creation (agent-friendly)
+hl wallet create                     # Interactive wallet creation
 hl wallet import --key <hex>
 hl wallet list
 hl wallet export [--address 0x...]
@@ -162,7 +175,16 @@ hl wallet export [--address 0x...]
 ### Environment Setup
 
 ```bash
-hl setup check
+hl setup check                       # Validate environment
+hl setup bootstrap                   # Auto-create venv and install
+hl setup claim-usdyp                 # Claim testnet USDyP tokens
+```
+
+### MCP Server
+
+```bash
+hl mcp serve                         # Start MCP server (stdio transport)
+hl mcp serve --transport sse         # Start MCP server (SSE transport)
 ```
 
 ### TEE Clearing House
@@ -199,7 +221,7 @@ hl house status
 ## Workflow
 
 1. **Setup**: `hl setup check`
-2. **Claim USDyP** (testnet only): curl command above
+2. **Claim USDyP** (testnet only): `hl setup claim-usdyp`
 3. **Approve builder fee**: `hl builder approve` (testnet) or `hl builder approve --mainnet`
 4. **Mock test**: `hl run avellaneda_mm --mock --max-ticks 5`
 5. **Dry run**: `hl run engine_mm --dry-run --max-ticks 10`

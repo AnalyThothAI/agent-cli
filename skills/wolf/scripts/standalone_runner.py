@@ -5,6 +5,8 @@ Each tick: fetch prices → update ROEs → check DSL → run movers → evaluat
 """
 from __future__ import annotations
 
+import skills._bootstrap  # noqa: F401 — auto-setup sys.path
+
 import logging
 import signal
 import time

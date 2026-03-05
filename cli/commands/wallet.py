@@ -87,6 +87,35 @@ def wallet_list():
         typer.echo(f"{ks['address']:<44} {ks['path']}")
 
 
+@wallet_app.command("auto")
+def wallet_auto():
+    """Create a new wallet non-interactively (agent-friendly, no prompts)."""
+    import secrets
+
+    project_root = str(Path(__file__).resolve().parent.parent.parent)
+    if project_root not in sys.path:
+        sys.path.insert(0, project_root)
+
+    from eth_account import Account
+    from cli.keystore import create_keystore
+
+    # Generate random password and wallet
+    password = secrets.token_urlsafe(32)
+    account = Account.create()
+    address = account.address
+
+    ks_path = create_keystore(account.key.hex(), password)
+
+    typer.echo(f"Address:  {address}")
+    typer.echo(f"Password: {password}")
+    typer.echo(f"Keystore: {ks_path}")
+    typer.echo("")
+    typer.echo("To use this wallet, set:")
+    typer.echo(f"  export HL_KEYSTORE_PASSWORD={password}")
+    typer.echo("")
+    typer.echo("SAVE THE PASSWORD — it cannot be recovered.")
+
+
 @wallet_app.command("export")
 def wallet_export(
     address: str = typer.Option("", "--address", "-a",
