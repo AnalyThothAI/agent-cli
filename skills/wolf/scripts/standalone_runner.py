@@ -289,7 +289,10 @@ class WolfRunner:
                 for i, ctx in enumerate(ctxs):
                     if i >= len(universe):
                         break
-                    name = universe[i].get("name", "")
+                    try:
+                        name = universe[i].get("name", "")
+                    except (IndexError, AttributeError):
+                        continue
                     vol = float(ctx.get("dayNtlVlm", 0))
                     if vol >= self.movers_guard.config.volume_min_24h and name:
                         try:
