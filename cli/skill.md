@@ -186,13 +186,6 @@ hl mcp serve                         # Start MCP server (stdio transport)
 hl mcp serve --transport sse         # Start MCP server (SSE transport)
 ```
 
-### TEE Clearing House
-
-```bash
-hl house join [--mainnet]
-hl house status
-```
-
 ## Strategies (14)
 
 | Name | Type | Description |

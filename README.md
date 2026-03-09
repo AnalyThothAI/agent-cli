@@ -142,14 +142,6 @@ Market Data -> Composite Fair Value -> Dynamic Spread -> Inventory Skew -> Multi
 
 ---
 
-## TEE Clearing House
-
-This CLI implements the **agent side** of the [Nunchi TEE clearing architecture](https://docs.nunchi.trade). Agents connect to a House Enclave — a TEE-secured clearing venue — and compete via commit-reveal protocol with ECIES encryption and KKT optimality certificates.
-
-Access to the clearing house is currently invite-only. See [docs.nunchi.trade](https://docs.nunchi.trade) for the full clearing protocol specification, or reach out on [Discord](https://discord.gg/nunchi) to request access.
-
----
-
 ## Skills
 
 Built on the open [Agent Skills](https://agentskills.io) standard. Each skill is self-contained with instructions, scripts, and references.
@@ -492,8 +484,6 @@ skills/        Agent Skills (SKILL.md + runners)
   dsl/         Dynamic stop loss
   howl/        Performance review
 sdk/           Strategy base class and model registry
-agent/         TEE clearing agent client (ECIES, commit-reveal)
-clearing/      TEE clearing protocol types and crypto
 parent/        HL API proxy, position tracking, risk management
 tests/         Test suite (263 tests)
 ```
